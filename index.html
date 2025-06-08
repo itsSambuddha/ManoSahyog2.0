@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ManoSahyog - Mental Well-being Companion</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="menubar-container"></div>
+
+  <script>
+    // Load menubar dynamically
+    fetch('menubar.html')
+      .then(response => response.text())
+      .then(html => {
+        const menubarContainer = document.getElementById('menubar-container');
+        menubarContainer.innerHTML = html;
+
+        // Menubar toggle script moved here to run after menubar is loaded
+        const menubar = document.getElementById('menubar');
+        const menubarToggle = document.getElementById('menubarToggle');
+
+        menubarToggle.addEventListener('click', () => {
+          const isActive = menubar.classList.toggle('active');
+          menubarToggle.classList.toggle('active', isActive);
+          menubarToggle.setAttribute('aria-expanded', isActive);
+          menubar.setAttribute('aria-hidden', !isActive);
+        });
+      });
+  </script>
+
+  <!-- Header Section -->
+  <header class="header">
+    <h1>ManoSahyog</h1>
+    <p>Your companion for mental well-being. Explore tools and resources designed to support your mental health journey.</p>
+  </header>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Explore Our Features</h2>
+    <div class="feature-cards">
+      <div class="card">
+        <h3>Self-Assessments</h3>
+        <p>Understand your mental state with standardized questionnaires like PHQ-9 and GAD-7.</p>
+        <a href="alltest.html" class="button">Learn More</a>
+      </div>
+      <div class="card">
+        <h3>CBT Chatbot</h3>
+        <p>Engage in guided CBT exercises with our friendly chatbot, personalized to your needs.</p>
+        <a href="chatbot.html" class="button">Learn More</a>
+      </div>
+      <div class="card">
+        <h3>Personality Insights</h3>
+        <p>Discover more about yourself with personality test results and insights.</p>
+        <a href="personality-tests.html" class="button">Learn More</a>
+      </div>
+      <div class="card">
+        <h3>Crisis Support</h3>
+        <p>Access local emergency contacts and helpline information when you need immediate support.</p>
+        <a href="crisis-support.html" class="button">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="cta">
+    <h2>Ready to Start?</h2>
+    <p>Take the first step towards better mental well-being. Our tools are designed to be accessible and easy to use.</p>
+    <a href="assessments.html" class="button large">Begin an Assessment</a>
+  </section>
+
+  <div id="footer-container"></div>
+  <script>
+    // Load footer dynamically
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        const footerContainer = document.getElementById('footer-container');
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html>

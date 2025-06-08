@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assessment - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="menubar-container"></div>
+  <header class="header">
+    <h1 id="assessment-name">Assessment</h1>
+    <p id="assessment-description">Loading assessment details...</p>
+  </header>
+
+  <section class="assessment-form">
+    <form id="assessmentForm">
+      <!-- Questions will be dynamically inserted here -->
+    </form>
+    <button id="submitBtn" class="button" type="button">Submit</button>
+    <div id="result" style="margin-top: 1.5rem;"></div>
+  </section>
+
+  <script>
+    // Sample assessments data with questions and scoring logic
+    const assessments = {
+      "phq-9": {
+        name: "PHQ-9 Depression Questionnaire",
+        description: "A standard questionnaire to assess depression severity.",
+        questions: [
+          { id: "q1", text: "Little interest or pleasure in doing things?" },
+          { id: "q2", text: "Feeling down, depressed, or hopeless?" },
+          { id: "q3", text: "Trouble falling or staying asleep, or sleeping too much?" },
+          { id: "q4", text: "Feeling tired or having little energy?" },
+          { id: "q5", text: "Poor appetite or overeating?" },
+          { id: "q6", text: "Feeling bad about yourself — or that you are a failure or have let yourself or your family down?" },
+          { id: "q7", text: "Trouble concentrating on things, such as reading the newspaper or watching television?" },
+          { id: "q8", text: "Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving a lot more than usual?" },
+          { id: "q9", text: "Thoughts that you would be better off dead or of hurting yourself in some way?" }
+        ],
+        scoring: function(answers) {
+          // Sum all answers (0-3 scale)
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score <= 4) return "Minimal or none";
+          if (score <= 9) return "Mild";
+          if (score <= 14) return "Moderate";
+          if (score <= 19) return "Moderately severe";
+          return "Severe";
+        }
+      },
+      "gad-7": {
+        name: "GAD-7 Anxiety Questionnaire",
+        description: "A standard questionnaire to assess anxiety severity.",
+        questions: [
+          { id: "q1", text: "Feeling nervous, anxious, or on edge?" },
+          { id: "q2", text: "Not being able to stop or control worrying?" },
+          { id: "q3", text: "Worrying too much about different things?" },
+          { id: "q4", text: "Trouble relaxing?" },
+          { id: "q5", text: "Being so restless that it is hard to sit still?" },
+          { id: "q6", text: "Becoming easily annoyed or irritable?" },
+          { id: "q7", text: "Feeling afraid as if something awful might happen?" }
+        ],
+        scoring: function(answers) {
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score <= 4) return "Minimal anxiety";
+          if (score <= 9) return "Mild anxiety";
+          if (score <= 14) return "Moderate anxiety";
+          return "Severe anxiety";
+        }
+      },
+      "ucla-loneliness": {
+        name: "UCLA Loneliness Scale",
+        description: "Measures subjective feelings of loneliness and social isolation.",
+        questions: [
+          { id: "q1", text: "How often do you feel that you lack companionship?" },
+          { id: "q2", text: "How often do you feel left out?" },
+          { id: "q3", text: "How often do you feel isolated from others?" }
+        ],
+        scoring: function(answers) {
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score <= 3) return "Low loneliness";
+          if (score <= 6) return "Moderate loneliness";
+          return "High loneliness";
+        }
+      },
+      "stroop": {
+        name: "STROOP Test",
+        description: "Assesses cognitive flexibility and attention control.",
+        questions: [
+          { id: "q1", text: "Name the color of the word: RED (word is blue)" },
+          { id: "q2", text: "Name the color of the word: GREEN (word is red)" },
+          { id: "q3", text: "Name the color of the word: BLUE (word is green)" }
+        ],
+        scoring: function(answers) {
+          // For simplicity, count correct answers (1) vs incorrect (0)
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score === 3) return "Excellent cognitive flexibility";
+          if (score === 2) return "Good cognitive flexibility";
+          if (score === 1) return "Fair cognitive flexibility";
+          return "Needs improvement";
+        }
+      },
+      "tat": {
+        name: "Thematic Apperception Test",
+        description: "Evaluates personality through storytelling based on ambiguous images.",
+        questions: [
+          { id: "q1", text: "Describe what is happening in this picture." },
+          { id: "q2", text: "What do you think the people in the picture are feeling?" },
+          { id: "q3", text: "What might happen next in the story?" }
+        ],
+        scoring: function(answers) {
+          // No scoring, qualitative assessment
+          return null;
+        },
+        interpretation: function(score) {
+          return "This test is for qualitative analysis. No numeric score.";
+        }
+      },
+      "sentence-completion": {
+        name: "Sentence Completion Test",
+        description: "Reveals underlying thoughts and feelings through sentence prompts.",
+        questions: [
+          { id: "q1", text: "I feel happiest when..." },
+          { id: "q2", text: "My biggest fear is..." },
+          { id: "q3", text: "I wish I could..." }
+        ],
+        scoring: function(answers) {
+          // No scoring, qualitative assessment
+          return null;
+        },
+        interpretation: function(score) {
+          return "This test is for qualitative analysis. No numeric score.";
+        }
+      }
+    };
+
+    // Utility to get query parameters
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const slug = getQueryParam('slug');
+    const assessment = assessments[slug];
+
+    const assessmentNameEl = document.getElementById('assessment-name');
+    const assessmentDescEl = document.getElementById('assessment-description');
+    const formEl = document.getElementById('assessmentForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultEl = document.getElementById('result');
+
+    if (!assessment) {
+      assessmentNameEl.textContent = "Assessment Not Found";
+      assessmentDescEl.textContent = "The requested assessment could not be found.";
+      submitBtn.style.display = 'none';
+    } else {
+      assessmentNameEl.textContent = assessment.name;
+      assessmentDescEl.textContent = assessment.description;
+
+      // Render questions as radio button groups
+      assessment.questions.forEach(q => {
+        const fieldset = document.createElement('fieldset');
+        const legend = document.createElement('legend');
+        legend.textContent = q.text;
+        fieldset.appendChild(legend);
+
+        // Options 0-3 for frequency/severity
+        ['0', '1', '2', '3'].forEach(value => {
+          const label = document.createElement('label');
+          label.style.marginRight = '1rem';
+
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = q.id;
+          input.value = value;
+          input.required = true;
+
+          label.appendChild(input);
+          label.appendChild(document.createTextNode(` ${value}`));
+          fieldset.appendChild(label);
+        });
+
+        formEl.appendChild(fieldset);
+      });
+
+      // Handle form submission
+      submitBtn.addEventListener('click', () => {
+        const formData = new FormData(formEl);
+        const answers = {};
+        for (const [key, value] of formData.entries()) {
+          answers[key] = value;
+        }
+
+        // Calculate score using assessment scoring function
+        const score = assessment.scoring(answers);
+        const interpretation = assessment.interpretation(score);
+
+        // Display result with comments for API integration
+        resultEl.innerHTML = `
+          <h2>Results</h2>
+          <p>Your score: <strong>${score}</strong></p>
+          <p>Interpretation: <strong>${interpretation}</strong></p>
+          <p><!-- You can add API integration here to send results to backend for storage or further analysis --></p>
+        `;
+      });
+    }
+
+    // Load footer dynamically
+    const footerContainer = document.createElement('div');
+    footerContainer.id = 'footer-container';
+    document.body.appendChild(footerContainer);
+
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html>

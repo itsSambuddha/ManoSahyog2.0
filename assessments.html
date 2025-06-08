@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Self-Assessments - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="menubar-container"></div>
+  <header class="header">
+    <h1>Self-Assessments</h1>
+    <p>Choose an assessment below to gain insights into your mental well-being. These tools are for informational purposes and not a substitute for professional medical advice.</p>
+  </header>
+
+  <section class="features">
+    <div class="feature-cards" id="assessments-list">
+      <!-- Assessment cards will be inserted here by JavaScript -->
+    </div>
+  </section>
+
+  <script>
+    // Sample assessments data - can be replaced with API call
+    const assessments = [
+      {
+        name: "PHQ-9 Depression Questionnaire",
+        slug: "phq-9",
+        description: "A standard questionnaire to assess depression severity."
+      },
+      {
+        name: "GAD-7 Anxiety Questionnaire",
+        slug: "gad-7",
+        description: "A standard questionnaire to assess anxiety severity."
+      },
+      {
+        name: "UCLA Loneliness Scale",
+        slug: "ucla-loneliness",
+        description: "Measures subjective feelings of loneliness and social isolation."
+      },
+      {
+        name: "STROOP Test",
+        slug: "stroop",
+        description: "Assesses cognitive flexibility and attention control."
+      },
+      {
+        name: "Thematic Apperception Test",
+        slug: "tat",
+        description: "Evaluates personality through storytelling based on ambiguous images."
+      },
+      {
+        name: "Sentence Completion Test",
+        slug: "sentence-completion",
+        description: "Reveals underlying thoughts and feelings through sentence prompts."
+      }
+    ];
+
+    // Add menubar toggle script after menubar is loaded dynamically
+    const menubarContainer = document.getElementById('menubar-container');
+    fetch('menubar.html')
+      .then(response => response.text())
+      .then(html => {
+        menubarContainer.innerHTML = html;
+        const menubar = document.getElementById('menubar');
+        const menubarToggle = document.getElementById('menubarToggle');
+
+        menubarToggle.addEventListener('click', () => {
+          const isActive = menubar.classList.toggle('active');
+          menubarToggle.classList.toggle('active', isActive);
+          menubarToggle.setAttribute('aria-expanded', isActive);
+          menubar.setAttribute('aria-hidden', !isActive);
+        });
+      });
+
+    const assessmentsList = document.getElementById('assessments-list');
+
+    // Function to create assessment cards dynamically
+    function renderAssessments() {
+      assessments.forEach(assessment => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const title = document.createElement('h3');
+        title.textContent = assessment.name;
+
+        const desc = document.createElement('p');
+        desc.textContent = assessment.description;
+
+        const link = document.createElement('a');
+        link.href = `alltest.html?slug=${assessment.slug}`;
+        link.className = 'button';
+        link.textContent = 'Start Assessment';
+
+        card.appendChild(title);
+        card.appendChild(desc);
+        card.appendChild(link);
+
+        assessmentsList.appendChild(card);
+      });
+    }
+
+    // Render assessments on page load
+    renderAssessments();
+  </script>
+
+  <div id="footer-container"></div>
+  <script>
+    // Load footer dynamically
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        const footerContainer = document.getElementById('footer-container');
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html>

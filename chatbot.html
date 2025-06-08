@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CBT Chatbot - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Additional styles for chatbot UI */
+    .chat-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+      background: white;
+    }
+    .chat-messages {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      border-bottom: 1px solid #ccc;
+    }
+    .message {
+      margin-bottom: 1rem;
+      max-width: 75%;
+      padding: 0.5rem 1rem;
+      border-radius: 15px;
+      clear: both;
+    }
+    .message.bot {
+      background-color: #e0e7ff;
+      float: left;
+    }
+    .message.user {
+      background-color: #4f46e5;
+      color: white;
+      float: right;
+    }
+    .chat-input {
+      display: flex;
+      padding: 0.5rem;
+    }
+    .chat-input textarea {
+      flex-grow: 1;
+      resize: none;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .chat-input button {
+      margin-left: 0.5rem;
+      padding: 0 1rem;
+      font-size: 1rem;
+      border: none;
+      background-color: #4f46e5;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .chat-input button:disabled {
+      background-color: #a5b4fc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div id="menubar-container"></div>
+  <header class="header">
+    <h1>CBT Chatbot</h1>
+    <p>Engage in guided Cognitive Behavioral Therapy exercises with our interactive chatbot.</p>
+  </header>
+
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-messages" id="chatMessages" aria-live="polite" aria-atomic="false">
+      <!-- Chat messages will appear here -->
+    </div>
+    <div class="chat-input">
+      <textarea id="userInput" rows="2" placeholder="Type your message here..."></textarea>
+      <button id="sendBtn" disabled>Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Load menubar dynamically
+    fetch('menubar.html')
+      .then(response => response.text())
+      .then(html => {
+        const menubarContainer = document.getElementById('menubar-container');
+        menubarContainer.innerHTML = html;
+
+        // Menubar toggle script moved here to run after menubar is loaded
+        const menubar = document.getElementById('menubar');
+        const menubarToggle = document.getElementById('menubarToggle');
+
+        menubarToggle.addEventListener('click', () => {
+          const isActive = menubar.classList.toggle('active');
+          menubarToggle.classList.toggle('active', isActive);
+          menubarToggle.setAttribute('aria-expanded', isActive);
+          menubar.setAttribute('aria-hidden', !isActive);
+        });
+      });
+
+    // Chatbot frontend logic with comments for API integration
+
+    const chatMessages = document.getElementById('chatMessages');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Store conversation state (e.g., current FSM state)
+    let currentStateId = 'START';
+
+    // Function to add a message to chat window
+    function addMessage(sender, text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+      msgDiv.textContent = text;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Enable send button only if input is not empty
+    userInput.addEventListener('input', () => {
+      sendBtn.disabled = userInput.value.trim() === '';
+    });
+
+    // Function to send user message and get bot response
+    async function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      addMessage('user', text);
+      userInput.value = '';
+      sendBtn.disabled = true;
+
+      // Show loading message
+      addMessage('bot', '...');
+
+      // Prepare payload for API
+      const payload = {
+        stateId: currentStateId,
+        userInput: text
+      };
+
+      try {
+        // Call chatbot backend API (replace URL with actual backend endpoint)
+        // Example: const response = await fetch('/api/chatbot', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        // const data = await response.json();
+
+        // For now, simulate API response with a delay and simple FSM logic
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Remove loading message
+        const loadingMsg = chatMessages.querySelector('.message.bot:last-child');
+        if (loadingMsg) chatMessages.removeChild(loadingMsg);
+
+        // Simulated response (replace with data.message and data.nextStateId from API)
+        const simulatedResponses = {
+          'START': "Hello! I'm here to help you with some Cognitive Behavioral Therapy (CBT) exercises. How are you feeling today?",
+          'FEELING_OKAY': "That's good to hear! Would you like to try a simple thought challenging exercise, or perhaps a gratitude practice? (Type 'Thought Challenging' or 'Gratitude Practice')",
+          'FEELING_DOWN': "I understand. Sometimes, exploring our thoughts can help. Would you like to try a thought record exercise, or something to help with activity scheduling? (Type 'Thought Record' or 'Activity Scheduling')",
+          'UNRECOGNIZED_INPUT': "I'm not sure how to respond to that. Would you like to try rephrasing, or go back to the main menu?"
+        };
+
+        // Simple FSM transition simulation
+        let nextState = 'UNRECOGNIZED_INPUT';
+        if (currentStateId === 'START') {
+          if (text.toLowerCase().includes('okay')) nextState = 'FEELING_OKAY';
+          else if (text.toLowerCase().includes('down')) nextState = 'FEELING_DOWN';
+          else nextState = 'UNRECOGNIZED_INPUT';
+        } else {
+          nextState = 'UNRECOGNIZED_INPUT';
+        }
+
+        currentStateId = nextState;
+        addMessage('bot', simulatedResponses[nextState] || "Sorry, I didn't understand that.");
+
+        // Add comments here for real API integration:
+        // - Send userInput and currentStateId to backend
+        // - Receive bot message and nextStateId
+        // - Update currentStateId and display bot message
+
+      } catch (error) {
+        // Remove loading message
+        const loadingMsg = chatMessages.querySelector('.message.bot:last-child');
+        if (loadingMsg) chatMessages.removeChild(loadingMsg);
+
+        addMessage('bot', 'Sorry, there was an error communicating with the chatbot service.');
+        console.error('Chatbot API error:', error);
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Allow pressing Enter to send message (Shift+Enter for newline)
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!sendBtn.disabled) sendMessage();
+      }
+    });
+
+    // Initialize chat with welcome message
+    addMessage('bot', "Hello! I'm here to help you with some Cognitive Behavioral Therapy (CBT) exercises. How are you feeling today?");
+  </script>
+</body>
+</html>
