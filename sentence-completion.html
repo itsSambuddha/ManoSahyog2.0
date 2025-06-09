@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Self-Assessments - ManoSahyog</title>
+  <title>Sentence Completion Test - ManoSahyog</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -31,20 +31,41 @@
   </script>
 
   <header class="header">
-    <h1>Self-Assessments</h1>
-    <p>Select an assessment to begin.</p>
+    <h1>Sentence Completion Test</h1>
+    <p>Reveals underlying thoughts and feelings through sentence prompts.</p>
   </header>
 
-  <section class="assessment-list" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
-    <ul>
-      <li><a href="phq-9.html">PHQ-9 Depression Questionnaire</a></li>
-      <li><a href="gad-7.html">GAD-7 Anxiety Questionnaire</a></li>
-      <li><a href="ucla-loneliness.html">UCLA Loneliness Scale</a></li>
-      <li><a href="stroop.html">STROOP Test</a></li>
-      <li><a href="tat.html">Thematic Apperception Test</a></li>
-      <li><a href="sentence-completion.html">Sentence Completion Test</a></li>
-    </ul>
+  <section class="assessment-form" style="max-width: 700px; margin: 2rem auto; padding: 0 1rem;">
+    <form id="assessmentForm">
+      <fieldset>
+        <legend>I feel happiest when...</legend>
+        <textarea name="q1" rows="4" required></textarea>
+      </fieldset>
+      <fieldset>
+        <legend>My biggest fear is...</legend>
+        <textarea name="q2" rows="4" required></textarea>
+      </fieldset>
+      <fieldset>
+        <legend>I wish I could...</legend>
+        <textarea name="q3" rows="4" required></textarea>
+      </fieldset>
+    </form>
+    <button id="submitBtn" class="button" type="button">Submit</button>
+    <div id="result" style="margin-top: 1.5rem;"></div>
   </section>
+
+  <script>
+    const submitBtn = document.getElementById('submitBtn');
+    const resultEl = document.getElementById('result');
+
+    submitBtn.addEventListener('click', () => {
+      // For qualitative assessment, just show a thank you message
+      resultEl.innerHTML = `
+        <h2>Thank you for completing the Sentence Completion Test.</h2>
+        <p>Your responses will be reviewed for qualitative analysis.</p>
+      `;
+    });
+  </script>
 
   <div id="footer-container"></div>
   <script>

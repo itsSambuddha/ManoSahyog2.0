@@ -6,59 +6,14 @@
   <title>Crisis Support - ManoSahyog</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="common.js" defer></script>
-  <style>
-    header {
-      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      border-radius: 0 0 1rem 1rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      margin-bottom: 2rem;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-    section p {
-      font-size: 1.125rem;
-      color: #555;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .card {
-      background: white;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    ul {
-      list-style: disc inside;
-      padding-left: 0;
-      color: #555;
-      font-size: 1.125rem;
-    }
-  </style>
 </head>
 <body>
   <div id="menubar-container"></div>
-  <header>
+  <header class="header">
     <h1>Crisis Support</h1>
   </header>
 
-  <main>
+  <main class="container">
     <section>
       <p>If you are in crisis or need immediate support, please use the following local emergency contacts and helplines.</p>
     </section>
@@ -76,12 +31,7 @@
     </section>
   </main>
 
-  <footer>
-    <div class="container text-center">
-      <p>&copy; 2024 ManoSahyog. All rights reserved.</p>
-    </div>
-  </footer>
-
+  <div id="footer-container"></div>
   <script>
     // Load menubar dynamically
     fetch('menubar.html')
@@ -100,6 +50,14 @@
           menubarToggle.setAttribute('aria-expanded', isActive);
           menubar.setAttribute('aria-hidden', !isActive);
         });
+      });
+
+    // Load footer dynamically
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        const footerContainer = document.getElementById('footer-container');
+        footerContainer.innerHTML = html;
       });
   </script>
 </body>

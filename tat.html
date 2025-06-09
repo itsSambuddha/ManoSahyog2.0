@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thematic Apperception Test - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="menubar-container"></div>
+
+  <script>
+    // Load menubar dynamically
+    fetch('menubar.html')
+      .then(response => response.text())
+      .then(html => {
+        const menubarContainer = document.getElementById('menubar-container');
+        menubarContainer.innerHTML = html;
+
+        // Menubar toggle script
+        const menubar = document.getElementById('menubar');
+        const menubarToggle = document.getElementById('menubarToggle');
+
+        menubarToggle.addEventListener('click', () => {
+          const isActive = menubar.classList.toggle('active');
+          menubarToggle.classList.toggle('active', isActive);
+          menubarToggle.setAttribute('aria-expanded', isActive);
+          menubar.setAttribute('aria-hidden', !isActive);
+        });
+      });
+  </script>
+
+  <header class="header">
+    <h1>Thematic Apperception Test</h1>
+    <p>Evaluates personality through storytelling based on ambiguous images.</p>
+  </header>
+
+  <section class="assessment-form" style="max-width: 700px; margin: 2rem auto; padding: 0 1rem;">
+    <form id="assessmentForm">
+      <div class="image-placeholder" style="height: 200px; margin-bottom: 1rem; border: 2px dashed #aaa; display: flex; justify-content: center; align-items: center; color: #666; font-style: italic;">
+        Image Placeholder
+      </div>
+      <fieldset>
+        <legend>Describe what is happening in this picture.</legend>
+        <textarea name="q1" rows="4" required></textarea>
+      </fieldset>
+      <fieldset>
+        <legend>What do you think the people in the picture are feeling?</legend>
+        <textarea name="q2" rows="4" required></textarea>
+      </fieldset>
+      <fieldset>
+        <legend>What might happen next in the story?</legend>
+        <textarea name="q3" rows="4" required></textarea>
+      </fieldset>
+    </form>
+    <button id="submitBtn" class="button" type="button">Submit</button>
+    <div id="result" style="margin-top: 1.5rem;"></div>
+  </section>
+
+  <script>
+    const submitBtn = document.getElementById('submitBtn');
+    const resultEl = document.getElementById('result');
+    const formEl = document.getElementById('assessmentForm');
+
+    submitBtn.addEventListener('click', () => {
+      // For qualitative assessment, just show a thank you message
+      resultEl.innerHTML = `
+        <h2>Thank you for completing the Thematic Apperception Test.</h2>
+        <p>Your responses will be reviewed for qualitative analysis.</p>
+      `;
+    });
+  </script>
+
+  <div id="footer-container"></div>
+  <script>
+    // Load footer dynamically
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        const footerContainer = document.getElementById('footer-container');
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STROOP Test - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="menubar-container"></div>
+
+  <script>
+    // Load menubar dynamically
+    fetch('menubar.html')
+      .then(response => response.text())
+      .then(html => {
+        const menubarContainer = document.getElementById('menubar-container');
+        menubarContainer.innerHTML = html;
+
+        // Menubar toggle script
+        const menubar = document.getElementById('menubar');
+        const menubarToggle = document.getElementById('menubarToggle');
+
+        menubarToggle.addEventListener('click', () => {
+          const isActive = menubar.classList.toggle('active');
+          menubarToggle.classList.toggle('active', isActive);
+          menubarToggle.setAttribute('aria-expanded', isActive);
+          menubar.setAttribute('aria-hidden', !isActive);
+        });
+      });
+  </script>
+
+  <header class="header">
+    <h1>STROOP Test</h1>
+    <p>Assesses cognitive flexibility and attention control.</p>
+  </header>
+
+  <section class="assessment-form" style="max-width: 700px; margin: 2rem auto; padding: 0 1rem;">
+    <form id="assessmentForm">
+      <fieldset>
+        <legend>Name the color of the word: RED (word is blue)</legend>
+        <label><input type="radio" name="q1" value="0" required> Incorrect</label>
+        <label><input type="radio" name="q1" value="1"> Correct</label>
+      </fieldset>
+      <fieldset>
+        <legend>Name the color of the word: GREEN (word is red)</legend>
+        <label><input type="radio" name="q2" value="0" required> Incorrect</label>
+        <label><input type="radio" name="q2" value="1"> Correct</label>
+      </fieldset>
+      <fieldset>
+        <legend>Name the color of the word: BLUE (word is green)</legend>
+        <label><input type="radio" name="q3" value="0" required> Incorrect</label>
+        <label><input type="radio" name="q3" value="1"> Correct</label>
+      </fieldset>
+    </form>
+    <button id="submitBtn" class="button" type="button">Submit</button>
+    <div id="result" style="margin-top: 1.5rem;"></div>
+  </section>
+
+  <script>
+    const submitBtn = document.getElementById('submitBtn');
+    const resultEl = document.getElementById('result');
+    const formEl = document.getElementById('assessmentForm');
+
+    function calculateScore() {
+      const formData = new FormData(formEl);
+      let total = 0;
+      for (const [key, value] of formData.entries()) {
+        total += parseInt(value) || 0;
+      }
+      return total;
+    }
+
+    function interpretScore(score) {
+      if (score === 3) return "Excellent cognitive flexibility";
+      if (score === 2) return "Good cognitive flexibility";
+      if (score === 1) return "Fair cognitive flexibility";
+      return "Needs improvement";
+    }
+
+    submitBtn.addEventListener('click', () => {
+      const score = calculateScore();
+      const interpretation = interpretScore(score);
+
+      resultEl.innerHTML = `
+        <h2>Results</h2>
+        <p><strong>Score:</strong> ${score}</p>
+        <p><strong>Interpretation:</strong> ${interpretation}</p>
+      `;
+    });
+  </script>
+
+  <div id="footer-container"></div>
+  <script>
+    // Load footer dynamically
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        const footerContainer = document.getElementById('footer-container');
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html>

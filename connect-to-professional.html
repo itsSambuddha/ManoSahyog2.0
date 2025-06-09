@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Connect to Professional - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="menubar-container"></div>
+
+  <script>
+    // Load menubar dynamically
+    fetch('menubar.html')
+      .then(response => response.text())
+      .then(html => {
+        const menubarContainer = document.getElementById('menubar-container');
+        menubarContainer.innerHTML = html;
+
+        // Menubar toggle script
+        const menubar = document.getElementById('menubar');
+        const menubarToggle = document.getElementById('menubarToggle');
+
+        menubarToggle.addEventListener('click', () => {
+          const isActive = menubar.classList.toggle('active');
+          menubarToggle.classList.toggle('active', isActive);
+          menubarToggle.setAttribute('aria-expanded', isActive);
+          menubar.setAttribute('aria-hidden', !isActive);
+        });
+      });
+  </script>
+
+  <header class="header">
+    <h1>Find a Professional</h1>
+    <p>Browse profiles of mental health professionals. This directory is for informational purposes only.</p>
+  </header>
+
+  <section class="disclaimer">
+    <strong>Important Disclaimer</strong>
+    <p>
+      ManoSahyog does not endorse or recommend any specific therapists or services. The information provided here is for general informational purposes only and does not constitute medical advice or a therapeutic relationship. You are responsible for interviewing and selecting a suitable therapist. Please verify their credentials and suitability for your needs independently. If you are in a crisis, please refer to our Crisis Support page or contact emergency services.
+    </p>
+  </section>
+
+  <section class="professional-cards">
+    <!-- Professional Card 1 -->
+    <div class="card">
+      <div class="image-placeholder">
+        Image Placeholder
+      </div>
+      <h3>College wali Psychatrist</h3>
+      <p><em>PhD, Licensed Clinical Psychologist</em></p>
+      <p>
+        Specialties:
+        <span class="specialty cbt">Cognitive Behavioral Therapy (CBT)</span>
+        <span class="specialty anxiety">Anxiety Disorders</span>
+        <span class="specialty mood">Mood Disorders</span>
+      </p>
+      <p>Dr. College wali specializes in evidence-based treatments for anxiety and depression. She believes in a collaborative approach to therapy, empowering clients to build resilience and achieve their mental wellness goals. Over 10 years of experience.</p>
+      <p><strong>Location:</strong> New York, NY (Telehealth available)</p>
+      <p class="accepting">Accepting new patients</p>
+      <p><strong>Contact Information:</strong></p>
+      <ul>
+        <li>Phone: 123-456-7890</li>
+        <li>Email: collegewali@example.com</li>
+        <li><a href="#" target="_blank" rel="noopener">Visit Website</a></li>
+      </ul>
+    </div>
+
+    <!-- Professional Card 2 -->
+    <div class="card">
+      <div class="image-placeholder">
+        Image Placeholder
+      </div>
+      <h3>Billu Bodmash, LCSW</h3>
+      <p><em>Licensed Clinical Social Worker</em></p>
+      <p>
+        Specialties:
+        <span class="specialty trauma">Trauma and PTSD</span>
+        <span class="specialty addiction">Addiction Psychiatry</span>
+        <span class="specialty marriage">Marriage and Family Therapy</span>
+      </p>
+      <p>Billu Bodmash provides a compassionate and non-judgmental space for individuals and families navigating trauma, addiction, and relationship challenges. He integrates various therapeutic modalities to best suit client needs.</p>
+      <p><strong>Location:</strong> Chicago, IL (In-person & Telehealth)</p>
+      <p class="not-accepting">Not currently accepting new patients</p>
+      <p><strong>Contact Information:</strong></p>
+      <ul>
+        <li>Phone: 987-654-3210</li>
+        <li>Email: billu@example.com</li>
+        <li><a href="#" target="_blank" rel="noopener">Visit Website</a></li>
+      </ul>
+    </div>
+
+    <!-- Professional Card 3 -->
+    <div class="card">
+      <div class="image-placeholder">
+        Image Placeholder
+      </div>
+      <h3>Mummy ka Chappal</h3>
+      <p><em>talking beyond this</em></p>
+      <p>
+        Specialties:
+        <span class="specialty general">General Psychiatry</span>
+        <span class="specialty child">Child and Adolescent Psychiatry</span>
+        <span class="specialty mood">Mood Disorders</span>
+      </p>
+      <p>Kaha ka daktarban. Mummy ka chappal khana se alz thaak</p>
+      <p><strong>Location:</strong> San Francisco, CA (Telehealth only)</p>
+      <p class="accepting">Accepting new patients</p>
+      <p><strong>Contact Information:</strong></p>
+      <ul>
+        <li>Phone: 555-123-4567</li>
+        <li>Email: mummy@example.com</li>
+        <li><a href="#" target="_blank" rel="noopener">Visit Website</a></li>
+      </ul>
+    </div>
+
+    <!-- Professional Card 4 -->
+    <div class="card">
+      <div class="image-placeholder">
+        Image Placeholder
+      </div>
+      <h3>100 men VS a man against his thoughts</h3>
+      <p>
+        Specialties:
+        <span class="specialty marriage">Marriage and Family Therapy</span>
+        <span class="specialty counseling">Counseling Psychology</span>
+        <span class="specialty anxiety">Anxiety Disorders</span>
+      </p>
+      <p>gata lagta he bolta hu</p>
+      <p><strong>Location:</strong> Austin, TX (In-person only)</p>
+      <p class="accepting">Accepting new patients</p>
+      <p><strong>Contact Information:</strong></p>
+      <ul>
+        <li>Phone: 123-987-6543</li>
+        <li>Email: 100men@example.com</li>
+        <li><a href="#" target="_blank" rel="noopener">Visit Website</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <div id="footer-container"></div>
+  <script>
+    // Load footer dynamically
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        const footerContainer = document.getElementById('footer-container');
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html>

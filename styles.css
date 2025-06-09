@@ -308,3 +308,82 @@ a:focus {
     height: 50px;
   }
 }
+
+/* Connect to Professional page styles */
+.disclaimer {
+  max-width: 900px;
+  margin: 1rem auto;
+  padding: 1rem;
+  background-color: #ffe6e6;
+  border: 1px solid #ffcccc;
+  border-radius: 8px;
+  color: #a94442;
+}
+
+.professional-cards {
+  max-width: 1100px;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  padding: 1rem;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 300px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #666;
+  border-radius: 8px;
+}
+
+.specialty {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.3rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.specialty.cbt,
+.specialty.anxiety,
+.specialty.mood,
+.specialty.general,
+.specialty.child {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.specialty.trauma,
+.specialty.addiction,
+.specialty.marriage {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.specialty.counseling {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.accepting {
+  color: green;
+  font-weight: 600;
+}
+
+.not-accepting {
+  color: red;
+  font-weight: 600;
+}

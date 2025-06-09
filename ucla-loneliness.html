@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UCLA Loneliness Scale - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="menubar-container"></div>
+
+  <script>
+    // Load menubar dynamically
+    fetch('menubar.html')
+      .then(response => response.text())
+      .then(html => {
+        const menubarContainer = document.getElementById('menubar-container');
+        menubarContainer.innerHTML = html;
+
+        // Menubar toggle script
+        const menubar = document.getElementById('menubar');
+        const menubarToggle = document.getElementById('menubarToggle');
+
+        menubarToggle.addEventListener('click', () => {
+          const isActive = menubar.classList.toggle('active');
+          menubarToggle.classList.toggle('active', isActive);
+          menubarToggle.setAttribute('aria-expanded', isActive);
+          menubar.setAttribute('aria-hidden', !isActive);
+        });
+      });
+  </script>
+
+  <header class="header">
+    <h1>UCLA Loneliness Scale</h1>
+    <p>Measures subjective feelings of loneliness and social isolation.</p>
+  </header>
+
+  <section class="assessment-form" style="max-width: 700px; margin: 2rem auto; padding: 0 1rem;">
+    <form id="assessmentForm">
+      <fieldset>
+        <legend>How often do you feel that you lack companionship?</legend>
+        <label><input type="radio" name="q1" value="0" required> 0</label>
+        <label><input type="radio" name="q1" value="1"> 1</label>
+        <label><input type="radio" name="q1" value="2"> 2</label>
+        <label><input type="radio" name="q1" value="3"> 3</label>
+      </fieldset>
+      <fieldset>
+        <legend>How often do you feel left out?</legend>
+        <label><input type="radio" name="q2" value="0" required> 0</label>
+        <label><input type="radio" name="q2" value="1"> 1</label>
+        <label><input type="radio" name="q2" value="2"> 2</label>
+        <label><input type="radio" name="q2" value="3"> 3</label>
+      </fieldset>
+      <fieldset>
+        <legend>How often do you feel isolated from others?</legend>
+        <label><input type="radio" name="q3" value="0" required> 0</label>
+        <label><input type="radio" name="q3" value="1"> 1</label>
+        <label><input type="radio" name="q3" value="2"> 2</label>
+        <label><input type="radio" name="q3" value="3"> 3</label>
+      </fieldset>
+    </form>
+    <button id="submitBtn" class="button" type="button">Submit</button>
+    <div id="result" style="margin-top: 1.5rem;"></div>
+  </section>
+
+  <script>
+    const submitBtn = document.getElementById('submitBtn');
+    const resultEl = document.getElementById('result');
+    const formEl = document.getElementById('assessmentForm');
+
+    function calculateScore() {
+      const formData = new FormData(formEl);
+      let total = 0;
+      for (const [key, value] of formData.entries()) {
+        total += parseInt(value) || 0;
+      }
+      return total;
+    }
+
+    function interpretScore(score) {
+      if (score <= 3) return "Low loneliness";
+      if (score <= 6) return "Moderate loneliness";
+      return "High loneliness";
+    }
+
+    submitBtn.addEventListener('click', () => {
+      const score = calculateScore();
+      const interpretation = interpretScore(score);
+
+      resultEl.innerHTML = `
+        <h2>Results</h2>
+        <p><strong>Score:</strong> ${score}</p>
+        <p><strong>Interpretation:</strong> ${interpretation}</p>
+      `;
+    });
+  </script>
+
+  <div id="footer-container"></div>
+  <script>
+    // Load footer dynamically
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        const footerContainer = document.getElementById('footer-container');
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html>
