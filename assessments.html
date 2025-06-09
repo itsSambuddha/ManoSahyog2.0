@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -31,21 +31,47 @@
   </script>
 
   <header class="header">
+    
     <h1>Self-Assessments</h1>
     <p>Select an assessment to begin.</p>
   </header>
 
-  <section class="assessment-list" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
-    <ul>
-      <li><a href="phq-9.html">PHQ-9 Depression Questionnaire</a></li>
-      <li><a href="gad-7.html">GAD-7 Anxiety Questionnaire</a></li>
-      <li><a href="ucla-loneliness.html">UCLA Loneliness Scale</a></li>
-      <li><a href="stroop.html">STROOP Test</a></li>
-      <li><a href="tat.html">Thematic Apperception Test</a></li>
-      <li><a href="sentence-completion.html">Sentence Completion Test</a></li>
-    </ul>
+  <section class="features">
+    <h2>Available Assessments</h2>
+    <div class="feature-cards">
+      <div class="card">
+        <h3>PHQ-9 Depression Questionnaire</h3>
+        <p>A standard questionnaire to assess depression severity.</p>
+        <a href="phq-9.html" class="button">Take Test</a>
+      </div>
+      <div class="card">
+        <h3>GAD-7 Anxiety Questionnaire</h3>
+        <p>A standard questionnaire to assess anxiety severity.</p>
+        <a href="gad-7.html" class="button">Take Test</a>
+      </div>
+      <div class="card">
+        <h3>UCLA Loneliness Scale</h3>
+        <p>Measures subjective feelings of loneliness and social isolation.</p>
+        <a href="ucla-loneliness.html" class="button">Take Test</a>
+      </div>
+      <div class="card">
+        <h3>STROOP Test</h3>
+        <p>Assesses cognitive flexibility and attention control.</p>
+        <a href="stroop.html" class="button">Take Test</a>
+      </div>
+      <div class="card">
+        <h3>Thematic Apperception Test</h3>
+        <p>Evaluates personality through storytelling based on ambiguous images.</p>
+        <a href="tat.html" class="button">Take Test</a>
+      </div>
+      <div class="card">
+        <h3>Sentence Completion Test</h3>
+        <p>Reveals underlying thoughts and feelings through sentence prompts.</p>
+        <a href="sentence-completion.html" class="button">Take Test</a>
+      </div>
+    </div>
   </section>
-
+<button onclick="history.back()" class="button" style="margin-bottom: 1rem;">&larr; Back</button>
   <div id="footer-container"></div>
   <script>
     // Load footer dynamically
@@ -57,4 +83,307 @@
       });
   </script>
 </body>
-</html>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assessment - ManoSahyog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+  <body>
+    <div id="menubar-container"></div>
+
+    <script>
+      // Load menubar dynamically
+      fetch('menubar.html')
+        .then(response => response.text())
+        .then(html => {
+          const menubarContainer = document.getElementById('menubar-container');
+          menubarContainer.innerHTML = html;
+
+          // Menubar toggle script moved here to run after menubar is loaded
+          const menubar = document.getElementById('menubar');
+          const menubarToggle = document.getElementById('menubarToggle');
+
+          menubarToggle.addEventListener('click', () => {
+            const isActive = menubar.classList.toggle('active');
+            menubarToggle.classList.toggle('active', isActive);
+            menubarToggle.setAttribute('aria-expanded', isActive);
+            menubar.setAttribute('aria-hidden', !isActive);
+          });
+        });
+    </script>
+
+    <header class="header">
+      <h1 id="assessment-name">Assessment</h1>
+      <p id="assessment-description">Loading assessment details...</p>
+    </header>
+
+  <section class="assessment-form">
+    <form id="assessmentForm">
+      <!-- Questions will be dynamically inserted here -->
+    </form>
+    <button id="submitBtn" class="button" type="button">Submit</button>
+    <div id="result" style="margin-top: 1.5rem;"></div>
+  </section>
+
+  <script>
+    // Sample assessments data with questions and scoring logic
+    const assessments = {
+      "phq-9": {
+        name: "PHQ-9 Depression Questionnaire",
+        description: "A standard questionnaire to assess depression severity.",
+        questions: [
+          { id: "q1", text: "Little interest or pleasure in doing things?" },
+          { id: "q2", text: "Feeling down, depressed, or hopeless?" },
+          { id: "q3", text: "Trouble falling or staying asleep, or sleeping too much?" },
+          { id: "q4", text: "Feeling tired or having little energy?" },
+          { id: "q5", text: "Poor appetite or overeating?" },
+          { id: "q6", text: "Feeling bad about yourself — or that you are a failure or have let yourself or your family down?" },
+          { id: "q7", text: "Trouble concentrating on things, such as reading the newspaper or watching television?" },
+          { id: "q8", text: "Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving a lot more than usual?" },
+          { id: "q9", text: "Thoughts that you would be better off dead or of hurting yourself in some way?" }
+        ],
+        scoring: function(answers) {
+          // Sum all answers (0-3 scale)
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score <= 4) return "Minimal or none";
+          if (score <= 9) return "Mild";
+          if (score <= 14) return "Moderate";
+          if (score <= 19) return "Moderately severe";
+          return "Severe";
+        }
+      },
+      "gad-7": {
+        name: "GAD-7 Anxiety Questionnaire",
+        description: "A standard questionnaire to assess anxiety severity.",
+        questions: [
+          { id: "q1", text: "Feeling nervous, anxious, or on edge?" },
+          { id: "q2", text: "Not being able to stop or control worrying?" },
+          { id: "q3", text: "Worrying too much about different things?" },
+          { id: "q4", text: "Trouble relaxing?" },
+          { id: "q5", text: "Being so restless that it is hard to sit still?" },
+          { id: "q6", text: "Becoming easily annoyed or irritable?" },
+          { id: "q7", text: "Feeling afraid as if something awful might happen?" }
+        ],
+        scoring: function(answers) {
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score <= 4) return "Minimal anxiety";
+          if (score <= 9) return "Mild anxiety";
+          if (score <= 14) return "Moderate anxiety";
+          return "Severe anxiety";
+        }
+      },
+      "ucla-loneliness": {
+        name: "UCLA Loneliness Scale",
+        description: "Measures subjective feelings of loneliness and social isolation.",
+        questions: [
+          { id: "q1", text: "How often do you feel that you lack companionship?" },
+          { id: "q2", text: "How often do you feel left out?" },
+          { id: "q3", text: "How often do you feel isolated from others?" }
+        ],
+        scoring: function(answers) {
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score <= 3) return "Low loneliness";
+          if (score <= 6) return "Moderate loneliness";
+          return "High loneliness";
+        }
+      },
+      "stroop": {
+        name: "STROOP Test",
+        description: "Assesses cognitive flexibility and attention control.",
+        questions: [
+          { id: "q1", text: "Name the color of the word: RED (word is blue)" },
+          { id: "q2", text: "Name the color of the word: GREEN (word is red)" },
+          { id: "q3", text: "Name the color of the word: BLUE (word is green)" }
+        ],
+        scoring: function(answers) {
+          // For simplicity, count correct answers (1) vs incorrect (0)
+          let total = 0;
+          for (const key in answers) {
+            total += parseInt(answers[key]) || 0;
+          }
+          return total;
+        },
+        interpretation: function(score) {
+          if (score === 3) return "Excellent cognitive flexibility";
+          if (score === 2) return "Good cognitive flexibility";
+          if (score === 1) return "Fair cognitive flexibility";
+          return "Needs improvement";
+        }
+      },
+      "tat": {
+        name: "Thematic Apperception Test",
+        description: "Evaluates personality through storytelling based on ambiguous images.",
+        questions: [
+          { id: "q1", text: "Describe what is happening in this picture." },
+          { id: "q2", text: "What do you think the people in the picture are feeling?" },
+          { id: "q3", text: "What might happen next in the story?" }
+        ],
+        scoring: function(answers) {
+          // No scoring, qualitative assessment
+          return null;
+        },
+        interpretation: function(score) {
+          return "This test is for qualitative analysis. No numeric score.";
+        },
+        // Add image placeholder for this test
+        imagePlaceholder: true
+      },
+      "sentence-completion": {
+        name: "Sentence Completion Test",
+        description: "Reveals underlying thoughts and feelings through sentence prompts.",
+        questions: [
+          { id: "q1", text: "I feel happiest when..." },
+          { id: "q2", text: "My biggest fear is..." },
+          { id: "q3", text: "I wish I could..." }
+        ],
+        scoring: function(answers) {
+          // No scoring, qualitative assessment
+          return null;
+        },
+        interpretation: function(score) {
+          return "This test is for qualitative analysis. No numeric score.";
+        }
+      }
+    };
+
+    // Utility to get query parameters
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const slug = getQueryParam('slug');
+    const assessment = assessments[slug];
+
+    const assessmentNameEl = document.getElementById('assessment-name');
+    const assessmentDescEl = document.getElementById('assessment-description');
+    const formEl = document.getElementById('assessmentForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultEl = document.getElementById('result');
+
+    if (!assessment) {
+      assessmentNameEl.textContent = "Assessment Not Found";
+      assessmentDescEl.textContent = "The requested assessment could not be found.";
+      submitBtn.style.display = 'none';
+    } else {
+      assessmentNameEl.textContent = assessment.name;
+      assessmentDescEl.textContent = assessment.description;
+
+      // Render questions as radio button groups
+      assessment.questions.forEach(q => {
+        const fieldset = document.createElement('fieldset');
+        const legend = document.createElement('legend');
+        legend.textContent = q.text;
+        fieldset.appendChild(legend);
+
+        // If this test has image placeholder, add it before questions
+        if (assessment.imagePlaceholder) {
+          const imgPlaceholder = document.createElement('div');
+          imgPlaceholder.style.width = '100%';
+          imgPlaceholder.style.height = '200px';
+          imgPlaceholder.style.backgroundColor = '#ddd';
+          imgPlaceholder.style.border = '2px dashed #aaa';
+          imgPlaceholder.style.marginBottom = '1rem';
+          imgPlaceholder.style.display = 'flex';
+          imgPlaceholder.style.justifyContent = 'center';
+          imgPlaceholder.style.alignItems = 'center';
+          imgPlaceholder.style.color = '#666';
+          imgPlaceholder.style.fontStyle = 'italic';
+          imgPlaceholder.textContent = 'Image Placeholder';
+          formEl.appendChild(imgPlaceholder);
+        }
+
+        // Options 0-3 for frequency/severity
+        ['0', '1', '2', '3'].forEach(value => {
+          const label = document.createElement('label');
+          label.style.marginRight = '1rem';
+
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = q.id;
+          input.value = value;
+          input.required = true;
+
+          label.appendChild(input);
+          label.appendChild(document.createTextNode(` ${value}`));
+          fieldset.appendChild(label);
+        });
+
+        formEl.appendChild(fieldset);
+      });
+
+      // Handle form submission
+      submitBtn.addEventListener('click', () => {
+        const formData = new FormData(formEl);
+        const answers = {};
+        for (const [key, value] of formData.entries()) {
+          answers[key] = value;
+        }
+
+        // Calculate score using assessment scoring function
+        const score = assessment.scoring(answers);
+        const interpretation = assessment.interpretation(score);
+
+        // Enhanced result display with grading and analysis
+        let grade = '';
+        if (assessment.slug === 'phq-9' || assessment.slug === 'gad-7') {
+          if (score <= 4) grade = 'Minimal';
+          else if (score <= 9) grade = 'Mild';
+          else if (score <= 14) grade = 'Moderate';
+          else if (score <= 19) grade = 'Moderately Severe';
+          else grade = 'Severe';
+        } else if (assessment.slug === 'ucla-loneliness') {
+          if (score <= 3) grade = 'Low';
+          else if (score <= 6) grade = 'Moderate';
+          else grade = 'High';
+        } else {
+          grade = interpretation;
+        }
+
+        resultEl.innerHTML = `
+          <h2>Results</h2>
+          <p><strong>Score:</strong> ${score !== null ? score : 'N/A'}</p>
+          <p><strong>Grade:</strong> ${grade}</p>
+          <p><strong>Interpretation:</strong> ${interpretation}</p>
+          <p><!-- You can add API integration here to send results to backend for storage or further analysis --></p>
+        `;
+      });
+    }
+
+    // Load footer dynamically
+    const footerContainer = document.createElement('div');
+    footerContainer.id = 'footer-container';
+    document.body.appendChild(footerContainer);
+
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        footerContainer.innerHTML = html;
+      });
+  </script>
+</body>
+</html> -->
