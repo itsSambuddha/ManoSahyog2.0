@@ -381,11 +381,23 @@ a:focus {
 .accepting {
   color: green;
   font-weight: 600;
+  border: 2px solid green;
+  padding: 0.3rem 0.6rem;
+  border-radius: 10px;
+  display: inline-block;
+  background-color: #e6f4ea;
+  box-shadow: 0 2px 4px rgba(0, 128, 0, 0.2);
 }
 
 .not-accepting {
   color: red;
   font-weight: 600;
+  border: 2px solid red;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  display: inline-block;
+  background-color: #f9e6e6;
+  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2);
 }
 
 
